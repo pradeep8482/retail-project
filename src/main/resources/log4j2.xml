@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+    <Appenders>
+        <Console name="CONSOLE" target="SYSTEM_ERR">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+        </Console>
+
+        <RollingFile name="retail-application-file" fileName="/Users/pradeepmullaguru/retail-application.log" filePattern="/Users/pradeepmullaguru/retail-application-%d{yyyy-MM-dd}-%i.log"
+                     append="true" bufferedIO="true">
+            <PatternLayout pattern="%d{ISO08601} [%c{1}]: logLevel=%p; message=%m; thread=%t; %n"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="100 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="10"/>
+        </RollingFile>
+
+        <Async name="root-appender" includeLocation="true" blocking="false">
+            <AppenderRef ref="retail-application-file"/>
+        </Async>
+    </Appenders>
+
+    <Loggers>
+        <logger name="com.controller.ProductController" level="info" additivity="false">
+            <appender-ref ref="root-appender"/>
+        </logger>
+        <!--<Logger name="org.springframework" level="info"/>-->
+        <Root level="info">
+            <AppenderRef ref="root-appender"/>
+        </Root>
+    </Loggers>
+</Configuration>
